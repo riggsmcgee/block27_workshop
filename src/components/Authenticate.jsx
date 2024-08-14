@@ -1,4 +1,10 @@
+import { useState } from 'react';
+
 export default function Authenticate(token) {
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  console.log(token);
+
   return (
     <div className="container">
       <h1>Authenticate</h1>
@@ -9,12 +15,13 @@ export default function Authenticate(token) {
               'https://fsa-jwt-practice.herokuapp.com/authenticate',
               {
                 headers: {
-                  contentType: 'application/json',
-                  Authorization: `Bearer ${token}`,
+                  ContentType: 'application/json',
+                  Authorization: `Bearer ${token['token']}`,
                 },
               }
             );
             const data = await response.json();
+            setMessage(data.message);
             console.log(data);
           } catch (error) {
             console.error(error);
@@ -23,6 +30,7 @@ export default function Authenticate(token) {
       >
         Check Authentication
       </button>
+      <p>{message}</p>
     </div>
   );
 }
